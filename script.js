@@ -23,10 +23,12 @@ let activeEndpoint = 'http://localhost:3000/translate';
 let hasCheckedEndpoint = false;
 
 async function translateText(payload) {
-    const endpoints = [
-        'http://localhost:3000/translate',
-        'translate.php'
-    ];
+    const endpoints = ['translate.php'];
+
+    // Only check localhost if we are running locally to avoid "local network access" popups on remote sites
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        endpoints.unshift('http://localhost:3000/translate');
+    }
 
     // If we already found a working endpoint, try that first
     if (activeEndpoint) {
